@@ -328,7 +328,7 @@ def get_ffi():
                 cmd = "%s %s %s" % (GCC_CMD, SSE_FLAGS, COMPILE_ARGS)
             else:
                 cmd = "%s %s" % (GCC_CMD, COMPILE_ARGS)
-            logging.info("Building C code module %s", DEST_LIB)
+            logging.info("Building C code module %s, %s", DEST_LIB, cmd % (destlib, " ".join(srcfiles)))
             do_build_code(cmd % (destlib, " ".join(srcfiles)))
         FFI_main = cffi.FFI()
         for d in defs_all:

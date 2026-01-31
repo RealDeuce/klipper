@@ -16,6 +16,7 @@ class DeltaKinematics:
     def __init__(self, toolhead, config):
         # Setup tower rails
         stepper_configs = [config.getsection("stepper_" + a) for a in "abc"]
+        self.printer = config.get_printer() #FLSUN Changes
         rail_a = stepper.LookupMultiRail(
             stepper_configs[0], need_position_minmax=False
         )
@@ -49,6 +50,12 @@ class DeltaKinematics:
         self.radius = radius = config.getfloat("delta_radius", above=0.0)
         print_radius = config.getfloat("print_radius", radius, above=0.0)
         arm_length_a = stepper_configs[0].getfloat("arm_length", above=radius)
+        # Start FLSUN Changes
+        gcode_move = self.printer.load_object(config, 'gcode_move')
+        x_size_offset, y_size_offset = gcode_move.get_xy_size_offset()
+        if x_size_offset > 0 or y_size_offset > 0:
+            print_radius = print_radius*(1 + max(x_size_offset, y_size_offset))
+        # End FLSUN Changes
         self.arm_lengths = arm_lengths = [
             sconfig.getfloat("arm_length", arm_length_a, above=radius)
             for sconfig in stepper_configs
@@ -172,12 +179,14 @@ class DeltaKinematics:
             raise move.move_error("Must home first")
         end_z = end_pos[2]
         limit_xy2 = self.max_xy2
-        if end_z > self.limit_z:
-            above_z_limit = end_z - self.limit_z
-            allowed_radius = self.radius - math.sqrt(
-                self.min_arm2 - (self.min_arm_length - above_z_limit) ** 2
-            )
-            limit_xy2 = min(limit_xy2, allowed_radius**2)
+        # Start FLSUN Changes
+        #if end_z > self.limit_z:
+        #    above_z_limit = end_z - self.limit_z
+        #    allowed_radius = self.radius - math.sqrt(
+        #        self.min_arm2 - (self.min_arm_length - above_z_limit) ** 2
+        #    )
+        #    limit_xy2 = min(limit_xy2, allowed_radius**2)
+        # End FLSUN Changes
         if end_xy2 > limit_xy2 or end_z > self.max_z or end_z < self.min_z:
             # Move out of range - verify not a homing move
             if (
@@ -187,6 +196,24 @@ class DeltaKinematics:
             ):
                 raise move.move_error()
             limit_xy2 = -1.0
+        # Start FLSUN Changes
+        if end_z > self.limit_z:
+            ha = math.sqrt(self.arm2[0] - (end_pos[0] - self.towers[0][0])**2 -
+                (end_pos[1] - self.towers[0][1])**2) + end_pos[2]
+            hb = math.sqrt(self.arm2[1] - (end_pos[0] - self.towers[1][0])**2 -
+                (end_pos[1] - self.towers[1][1])**2) + end_pos[2]
+            hc = math.sqrt(self.arm2[2] - (end_pos[0] - self.towers[2][0])**2 -
+                (end_pos[1] - self.towers[2][1])**2) + end_pos[2]
+            logging.info(
+                "ha is %f, hb is %f, hc is %f ,abs_endstop is %s", ha, hb, hc,
+                str(self.abs_endstops)
+            )
+            if (ha > (self.abs_endstops[0] + 0.01) or
+              hb > (self.abs_endstops[1] +0.01) or
+              hc > (self.abs_endstops[2] +0.01)):
+                raise move.move_error()
+            limit_xy2 = -1.
+        # End FLSUN Changes
         if move.axes_d[2]:
             z_ratio = move.move_d / abs(move.axes_d[2])
             move.limit_speed(
