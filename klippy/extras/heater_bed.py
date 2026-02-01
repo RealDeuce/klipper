@@ -21,6 +21,11 @@ class PrinterHeaterBed:
         # Set Bed Temperature
         temp = gcmd.get_float("S", 0.0)
         # Start FLSUN Changes
+        try:
+            pheaters.lookup_heater("heater_bed_2")
+            has_hb2 = True
+        except:
+            has_hb2 = False
         hotbed = gcmd.get_float('B', -1)
         # End FLSUN Changes
         pheaters = self.printer.lookup_object("heaters")
@@ -29,7 +34,7 @@ class PrinterHeaterBed:
         gcode = self.printer.lookup_object('gcode')
         if hotbed == 0 or hotbed == -1:
             pheaters.set_temperature(self.heater, temp, False)
-        if hotbed == 1 or hotbed == -1:
+        if (has_hb2 and (hotbed == 1 or hotbed == -1):
             gcode.run_script_from_command(
                 "SET_HEATER_TEMPERATURE HEATER=heater_bed_2 TARGET=%f WAIT=0"
                 % temp
@@ -38,7 +43,7 @@ class PrinterHeaterBed:
         if wait:
             if hotbed == 0 or hotbed == -1:
                 pheaters.set_temperature(self.heater, temp, True)
-            if hotbed == 1 or hotbed == -1:
+            if (has_hb2 and (hotbed == 1 or hotbed == -1):
                 gcode.run_script_from_command(
                     ("SET_HEATER_TEMPERATURE HEATER=heater_bed_2"
                      " TARGET=%f WAIT=1") % temp
