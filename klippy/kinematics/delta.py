@@ -35,7 +35,7 @@ class DeltaKinematics:
         self.radius = radius = config.getfloat('delta_radius', above=0.)
         print_radius = config.getfloat('print_radius', radius, above=0.)
         # Start FLSUN Changes
-        gcode_move = self.printer.lookup_object('gcode_move')
+        gcode_move = self.printer.load_object(config, 'gcode_move')
         x_size_offset, y_size_offset = gcode_move.get_xy_size_offset()
         if x_size_offset > 0 or y_size_offset > 0:
             print_radius = print_radius*(1 + max(x_size_offset, y_size_offset))
