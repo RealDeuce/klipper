@@ -130,7 +130,8 @@ class PrintStats:
                 self._update_filament_usage(eventtime)
             # Start FLSUN Changes
             #self.total_duration = eventtime - self.print_start_time
-            self.total_duration = eventtime - self.print_start_time + self.duration
+            self.total_duration = eventtime - self.print_start_time +
+                self.duration
             # End FLSUN Changes
             if self.filament_used < 0.0000001:
                 # Track duration prior to extrusion
