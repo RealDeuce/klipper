@@ -965,8 +965,9 @@ class ToolHead:
 
         if target_size is not None:
             gcode_move = self.printer.lookup_object('gcode_move')
-            last_x_size_offset, last_y_size_offset =
+            last_x_size_offset, last_y_size_offset = (
                 gcode_move.get_xy_size_offset()
+            )
             configfile = self.printer.lookup_object('configfile')
 
             if x_real_size is not None:
