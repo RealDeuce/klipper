@@ -979,7 +979,7 @@ class ToolHead:
                 configfile.set('printer', 'x_size_offset',
                     "%.6f" % (new_x_size_offset))
                 gcode.respond_info(
-                    f"X Offset Compensation applied: {%.6f}" % (new_x_size_offset)
+                    f"X Offset Compensation applied: %.6f" % (new_x_size_offset)
                 )
 
             if y_real_size is not None:
@@ -992,7 +992,7 @@ class ToolHead:
                     'printer', 'y_size_offset', "%.6f" % (new_y_size_offset)
                 )
                 gcode.respond_info(
-                    f"Y Offset Compensation applied: {%.6f}" % (new_y_size_offset)
+                    f"Y Offset Compensation applied: %.6f" % (new_y_size_offset)
                 )
 
         gcode.run_script_from_command('SAVE_CONFIG')
