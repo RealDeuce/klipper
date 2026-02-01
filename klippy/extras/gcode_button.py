@@ -62,9 +62,9 @@ class GCodeButton:
                     self.gcode.run_script_from_command(
                         "M117 Please calibrate Motor A!"
                     )
-                elif self.triggered_time > 0.25 and
+                elif (self.triggered_time > 0.25 and
                   self.triggered_time < 0.8 and
-                  not self.printer.in_shutdown_state:
+                  not self.printer.in_shutdown_state):
                     self.printer.invoke_shutdown(
                         "Error has occurred with Motor A"
                     )
@@ -74,9 +74,9 @@ class GCodeButton:
                     self.gcode.run_script_from_command(
                         "M117 Please calibrate Motor B!"
                     )
-                elif self.triggered_time > 0.25 and
+                elif (self.triggered_time > 0.25 and
                   self.triggered_time < 0.8 and
-                  not self.printer.in_shutdown_state:
+                  not self.printer.in_shutdown_state):
                     self.printer.invoke_shutdown(
                         "Error has occurred with Motor B"
                     )
@@ -86,9 +86,9 @@ class GCodeButton:
                     self.gcode.run_script_from_command(
                         "M117 Please calibrate Motor C!"
                     )
-                elif self.triggered_time > 0.25 and
+                elif (self.triggered_time > 0.25 and
                   self.triggered_time < 0.8 and
-                  not self.printer.in_shutdown_state:
+                  not self.printer.in_shutdown_state):
                     self.printer.invoke_shutdown(
                         "Error has occurred with Motor C"
                     )

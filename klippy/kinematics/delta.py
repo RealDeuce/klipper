@@ -208,9 +208,9 @@ class DeltaKinematics:
                 "ha is %f, hb is %f, hc is %f ,abs_endstop is %s", ha, hb, hc,
                 str(self.abs_endstops)
             )
-            if ha > (self.abs_endstops[0] + 0.01) or
+            if (ha > (self.abs_endstops[0] + 0.01) or
               hb > (self.abs_endstops[1] +0.01) or
-              hc > (self.abs_endstops[2] +0.01):
+              hc > (self.abs_endstops[2] +0.01)):
                 raise move.move_error()
             limit_xy2 = -1.
         # End FLSUN Changes

@@ -223,8 +223,9 @@ class VirtualSD:
         self._load_file(gcmd, filename, self.with_subdirs)
 
     # Start FLSUN Changes
-    cmd_POWER_LOSS_RESTART_PRINT_help =
+    cmd_POWER_LOSS_RESTART_PRINT_help = (
         "Restart print after power loss and power on"
+    )
     def cmd_POWER_LOSS_RESTART_PRINT(self, gcmd):
         filename = gcmd.get("FILENAME")
         fileposition = gcmd.get("FILEPOSITION")
