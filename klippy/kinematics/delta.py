@@ -151,7 +151,7 @@ class DeltaKinematics:
             hb = math.sqrt(self.arm2[1] - (end_pos[0] - self.towers[1][0])**2 -
                 (end_pos[1] - self.towers[1][1])**2) + end_pos[2]
             hc = math.sqrt(self.arm2[2] - (end_pos[0] - self.towers[2][0])**2 -
-                (end_pos[1] - self.towers[2][1])**2) + end_pos[2]    
+                (end_pos[1] - self.towers[2][1])**2) + end_pos[2]
             logging.info(
                 "ha is %f, hb is %f, hc is %f ,abs_endstop is %s", ha, hb, hc,
                 str(self.abs_endstops)

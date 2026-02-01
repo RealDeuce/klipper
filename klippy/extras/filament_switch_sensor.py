@@ -155,7 +155,7 @@ class RunoutHelper:
                     "Homing failed due to printer shutdown")
             self.printer.lookup_object('stepper_enable').motor_off()
             raise
- 
+
     cmd_FAN_STOP_help = "Immediately stops fan"
     def cmd_FAN_STOP(self,gcmd):
         fan_state = self.printer.lookup_object('fan')

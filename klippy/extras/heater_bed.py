@@ -32,13 +32,14 @@ class PrinterHeaterBed:
                 "SET_HEATER_TEMPERATURE HEATER=heater_bed_2 TARGET=%f WAIT=0"
                 % temp
             )
-        
+ 
         if wait:
             if hotbed == 0 or hotbed == -1:
                 pheaters.set_temperature(self.heater, temp, True)
             if hotbed == 1 or hotbed == -1:
                 gcode.run_script_from_command(
-                    "SET_HEATER_TEMPERATURE HEATER=heater_bed_2 TARGET=%f WAIT=1" % temp
+                    "SET_HEATER_TEMPERATURE HEATER=heater_bed_2 TARGET=%f WAIT=1"
+                    % temp
                 )
         # End FLSUN Changes
     def cmd_M190(self, gcmd):

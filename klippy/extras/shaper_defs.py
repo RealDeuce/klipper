@@ -22,7 +22,7 @@ def step(shaper_freq, damping_ratio,t):
     e = math.exp(-wn * damping_ratio * t)
     sin1 = math.sin(wd * t + Beta)
     cos1 = math.cos(wd * t + Beta)
-    s = t + (wd * e * cos1 + damping_ratio * wn * e * sin1) / 
+    s = t + (wd * e * cos1 + damping_ratio * wn * e * sin1) /
         ((damping_ratio **2 * wn **2 + wd **2)*df)
     return s
 
