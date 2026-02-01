@@ -32,7 +32,7 @@ class PrinterHeaterBed:
         gcode = self.printer.lookup_object('gcode')
         if hotbed == 0 or hotbed == -1:
             pheaters.set_temperature(self.heater, temp, False)
-        if (has_hb2 and (hotbed == 1 or hotbed == -1):
+        if (has_hb2 and (hotbed == 1 or hotbed == -1)):
             gcode.run_script_from_command(
                 "SET_HEATER_TEMPERATURE HEATER=heater_bed_2 TARGET=%f WAIT=0"
                 % temp
@@ -41,7 +41,7 @@ class PrinterHeaterBed:
         if wait:
             if hotbed == 0 or hotbed == -1:
                 pheaters.set_temperature(self.heater, temp, True)
-            if (has_hb2 and (hotbed == 1 or hotbed == -1):
+            if (has_hb2 and (hotbed == 1 or hotbed == -1)):
                 gcode.run_script_from_command(
                     ("SET_HEATER_TEMPERATURE HEATER=heater_bed_2"
                      " TARGET=%f WAIT=1") % temp
