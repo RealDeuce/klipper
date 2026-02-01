@@ -150,6 +150,7 @@ class PrintStats:
             },
         }
     # Start FLSUN Changes
+    # These are used during power recovery.
     def modify_print_time(self, time):
         self.duration = time
 

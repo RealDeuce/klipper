@@ -476,6 +476,8 @@ class PrinterHoming:
             axes = [0, 1, 2]
         homing_state = Homing(self.printer)
         homing_state.set_axes(axes)
+        my_home_speed = gcmd.get_float('F', 50, above=50) #flsun add, modify home speed
+        homing_state.set_home_speed(my_home_speed) #flsun add
         kin = self.printer.lookup_object("toolhead").get_kinematics()
         try:
             kin.home(homing_state)

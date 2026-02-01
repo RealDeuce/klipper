@@ -372,11 +372,11 @@ class ToolHead:
             self.cmd_RESET_VELOCITY_LIMIT,
             desc=self.cmd_RESET_VELOCITY_LIMIT_help,
         )
+        gcode.register_command("M204", self.cmd_M204)
         self.printer.register_event_handler(
             "klippy:shutdown", self._handle_shutdown
         )
         gcode.register_command('M101', self.cmd_M101) # FLSUN Changes
-        gcode.register_command('M204', self.cmd_M204) # FLSUN Changes
         # Load some default modules
         modules = [
             "gcode_move",
@@ -1011,6 +1011,14 @@ class ToolHead:
                 return
             accel = min(p, t)
         self.max_accel = accel
+        self._calc_junction_deviation()
+
+    def set_accel(self, accel):
+        self.max_accel = accel
+        self._calc_junction_deviation()
+
+    def reset_accel(self):
+        self.max_accel = self.orig_cfg["max_accel"]
         self._calc_junction_deviation()
 
 

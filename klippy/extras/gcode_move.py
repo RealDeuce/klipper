@@ -27,6 +27,7 @@ class GCodeMove:
             "homing:home_rails_end", self._handle_home_rails_end
         )
         # Start FLSUN Changes
+        # This appears to hack wherever home is to be 0,0
         p_config = config.getsection('printer')
         self.x_size_offset = (
             p_config.getfloat('x_size_offset', 0, above=-0.035, below=0.035)

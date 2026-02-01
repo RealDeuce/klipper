@@ -321,6 +321,7 @@ class Heater:
     def cmd_SET_HEATER_TEMPERATURE(self, gcmd):
         temp = gcmd.get_float("TARGET", 0.0)
         # Start FLSUN Changes
+        # Adds a "WAIT" paramter, and ensure power is on
         wait = gcmd.get_float('WAIT', 0)
         if ("extruder" in self.short_name):
             gcode = self.printer.lookup_object('gcode')
