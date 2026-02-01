@@ -22,7 +22,8 @@ def step(shaper_freq, damping_ratio,t):
     e = math.exp(-wn * damping_ratio * t)
     sin1 = math.sin(wd * t + Beta)
     cos1 = math.cos(wd * t + Beta)
-    s = t + (wd * e * cos1 + damping_ratio * wn * e * sin1)/((damping_ratio **2 * wn **2 + wd **2)*df)
+    s = t + (wd * e * cos1 + damping_ratio * wn * e * sin1) / 
+        ((damping_ratio **2 * wn **2 + wd **2)*df)
     return s
 
 def generate_matrix_C_zv(shaper_freq, damping_ratio,n,Tc):
@@ -31,8 +32,10 @@ def generate_matrix_C_zv(shaper_freq, damping_ratio,n,Tc):
     wd = wn * df
     matrix_C = np.zeros((4,n))
     for i in range(1,n+1):
-        matrix_C[0][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) * np.cos(wd * (i-1) * Tc)
-        matrix_C[1][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) * np.sin(wd * (i-1) * Tc)
+        matrix_C[0][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) *
+            np.cos(wd * (i-1) * Tc)
+        matrix_C[1][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) *
+            np.sin(wd * (i-1) * Tc)
         matrix_C[2][i-1] = 1
         matrix_C[3][i-1] = i-1
     return matrix_C
@@ -43,11 +46,15 @@ def generate_matrix_C_zvd(shaper_freq, damping_ratio,n,Tc):
     wd = wn * df
     matrix_C = np.zeros((6,n))
     for i in range(1,n+1):
-        matrix_C[0][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) * np.cos(wd * (i-1) * Tc)
-        matrix_C[1][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) * np.sin(wd * (i-1) * Tc)
+        matrix_C[0][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) *
+            np.cos(wd * (i-1) * Tc)
+        matrix_C[1][i-1] = np.exp(wn * damping_ratio * (i-1) * Tc) *
+            np.sin(wd * (i-1) * Tc)
         matrix_C[2][i-1] = 1
-        matrix_C[3][i-1] = (i-1) * np.exp(wn * damping_ratio * (i-1) * Tc) * np.cos(wd * (i-1) * Tc)
-        matrix_C[4][i-1] = (i-1) * np.exp(wn * damping_ratio * (i-1) * Tc) * np.sin(wd * (i-1) * Tc)
+        matrix_C[3][i-1] = (i-1) * np.exp(wn * damping_ratio * (i-1) * Tc) *
+            np.cos(wd * (i-1) * Tc)
+        matrix_C[4][i-1] = (i-1) * np.exp(wn * damping_ratio * (i-1) * Tc) *
+            np.sin(wd * (i-1) * Tc)
         matrix_C[5][i-1] = i-1
     return matrix_C
 
@@ -58,7 +65,9 @@ def generate_vector_b_zv(shaper_freq, damping_ratio,m,Tc):
 
 def generate_vector_b_zvd(shaper_freq, damping_ratio,m,Tc):
     wn = 2. * math.pi * shaper_freq
-    vector_b = np.array([0,0,1,0,0,m - 2 * damping_ratio / (wn * Tc)]).reshape(6, 1)
+    vector_b = np.array(
+        [0,0,1,0,0,m - 2 * damping_ratio / (wn * Tc)]
+    ).reshape(6, 1)
     return vector_b
 
 def generate_matrix_Q(n,qi):
@@ -113,14 +122,16 @@ def generate_vector_theta(shaper_freq, damping_ratio,n,Tc,m):
     vector_theta = np.zeros((n,1))
     for i in range(1,n+1):
         t_min = max(m-i-1, 0) * Tc
-        vector_theta[i-1][0] = step(shaper_freq, damping_ratio,(n-i-2)*Tc) - step(shaper_freq, damping_ratio,t_min)
+        vector_theta[i-1][0] = step(shaper_freq, damping_ratio,(n-i-2)*Tc) -
+            step(shaper_freq, damping_ratio,t_min)
     return vector_theta
 
 def generate_vector_g(shaper_freq, damping_ratio,n,Tc):
     vector_g = np.zeros((n,1))
     for i in range(1,n+1):
         t_min = max(n-i-2, 0) * Tc
-        vector_g[i-1][0] = step(shaper_freq, damping_ratio,(2*n-i-1)*Tc) - step(shaper_freq, damping_ratio,t_min)
+        vector_g[i-1][0] = step(shaper_freq, damping_ratio,(2*n-i-1)*Tc) -
+            step(shaper_freq, damping_ratio,t_min)
     return vector_g
 # End FLSUN Changes
 
@@ -238,8 +249,11 @@ def get_zero_zv_shaper(shaper_freq, damping_ratio):
         for i in range(n):
             T[i] = i * Tc - m * Tc
         C = generate_matrix_C_zv(shaper_freq, damping_ratio,n,Tc)
-        P1 = generate_matrix_Q(n,qi) + k1 * generate_matrix_Psi(shaper_freq, damping_ratio,n,Tc) + k2 * generate_matrix_H(shaper_freq, damping_ratio,n,Tc)
-        P2 = k1 * generate_vector_theta(shaper_freq, damping_ratio,n,Tc,m) + k2 * generate_vector_g(shaper_freq, damping_ratio,n,Tc)
+        P1 = generate_matrix_Q(n,qi) + k1 *
+            generate_matrix_Psi(shaper_freq, damping_ratio,n,Tc) + k2 *
+            generate_matrix_H(shaper_freq, damping_ratio,n,Tc)
+        P2 = k1 * generate_vector_theta(shaper_freq, damping_ratio,n,Tc,m) +
+            k2 * generate_vector_g(shaper_freq, damping_ratio,n,Tc)
         P1_ = np.linalg.inv(P1)
         CT = np.transpose(C)
         CP1_CT = np.dot(np.dot(C,P1_),CT)
@@ -254,7 +268,8 @@ def get_zero_zv_shaper(shaper_freq, damping_ratio):
         diff = np.diff(np.transpose(A))
         max_diff = np.max(diff)
         min_diff = np.min(diff)
-        if (max_A < 0.2) and (min_A > -0.2) and (max_diff < 0.15) and (min_diff > - 0.15):
+        if (max_A < 0.2) and (min_A > -0.2) and (max_diff < 0.15) and
+          (min_diff > - 0.15):
             break
     A = A.flatten().tolist()
     T = T.flatten().tolist()

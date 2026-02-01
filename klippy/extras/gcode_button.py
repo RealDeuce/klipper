@@ -48,21 +48,39 @@ class GCodeButton:
             self.triggered_time = self.release_time - self.pressed_time
             if 'motor_a' in self.name:
                 if self.triggered_time < 0.25:
-                    self.gcode.run_script_from_command("M117 Please calibrate Motor A!")
-                elif self.triggered_time > 0.25 and self.triggered_time < 0.8 and not self.printer.in_shutdown_state:
-                    self.printer.invoke_shutdown("Error has occurred with Motor A")
+                    self.gcode.run_script_from_command(
+                        "M117 Please calibrate Motor A!"
+                    )
+                elif self.triggered_time > 0.25 and
+                  self.triggered_time < 0.8 and
+                  not self.printer.in_shutdown_state:
+                    self.printer.invoke_shutdown(
+                        "Error has occurred with Motor A"
+                    )
                     return
             if 'motor_b' in self.name:
                 if self.triggered_time < 0.25:
-                    self.gcode.run_script_from_command("M117 Please calibrate Motor B!")
-                elif self.triggered_time > 0.25 and self.triggered_time < 0.8 and not self.printer.in_shutdown_state:
-                    self.printer.invoke_shutdown("Error has occurred with Motor B")
+                    self.gcode.run_script_from_command(
+                        "M117 Please calibrate Motor B!"
+                    )
+                elif self.triggered_time > 0.25 and
+                  self.triggered_time < 0.8 and
+                  not self.printer.in_shutdown_state:
+                    self.printer.invoke_shutdown(
+                        "Error has occurred with Motor B"
+                    )
                     return
             if 'motor_c' in self.name:
                 if self.triggered_time < 0.25:
-                    self.gcode.run_script_from_command("M117 Please calibrate Motor C!")
-                elif self.triggered_time > 0.25 and self.triggered_time < 0.8 and not self.printer.in_shutdown_state:
-                    self.printer.invoke_shutdown("Error has occurred with Motor C")
+                    self.gcode.run_script_from_command(
+                        "M117 Please calibrate Motor C!"
+                    )
+                elif self.triggered_time > 0.25 and
+                  self.triggered_time < 0.8 and
+                  not self.printer.in_shutdown_state:
+                    self.printer.invoke_shutdown(
+                        "Error has occurred with Motor C"
+                    )
                     return
             # End FLSUN Changes
             template = self.release_template

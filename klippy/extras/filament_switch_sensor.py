@@ -67,7 +67,7 @@ class RunoutHelper:
                  self._dispatch.add_stepper(stepper)
             extruder = self.printer.lookup_object('toolhead').get_extruder()
             stepper_ext = extruder.extruder_stepper.stepper
-            self._dispatch.add_stepper(stepper_ext) 
+            self._dispatch.add_stepper(stepper_ext)
     # End FLSUN Changes
     def _runout_event_handler(self, eventtime):
         # Pausing from inside an event requires that the pause portion
@@ -140,7 +140,7 @@ class RunoutHelper:
         fan_state = self.printer.lookup_object('fan')
         fan_state.fan.set_speed(0.)
         heater_state = self.printer.lookup_object('heaters')
-        heater_state.turn_off_all_heaters()     
+        heater_state.turn_off_all_heaters()
         print_time = toolhead.get_last_move_time()
         self._dispatch.start(print_time)
         self._dispatch.stop()
@@ -155,7 +155,7 @@ class RunoutHelper:
                     "Homing failed due to printer shutdown")
             self.printer.lookup_object('stepper_enable').motor_off()
             raise
-        
+ 
     cmd_FAN_STOP_help = "Immediately stops fan"
     def cmd_FAN_STOP(self,gcmd):
         fan_state = self.printer.lookup_object('fan')

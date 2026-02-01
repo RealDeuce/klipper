@@ -10,8 +10,10 @@ class GCodeMove:
         self.printer = printer = config.get_printer()
         # Start FLSUN Changes
         p_config = config.getsection('printer')
-        self.x_size_offset = p_config.getfloat('x_size_offset', 0, above=-0.035, below=0.035) 
-        self.y_size_offset = p_config.getfloat('y_size_offset', 0, above=-0.035, below=0.035) 
+        self.x_size_offset =
+            p_config.getfloat('x_size_offset', 0, above=-0.035, below=0.035)
+        self.y_size_offset =
+            p_config.getfloat('y_size_offset', 0, above=-0.035, below=0.035)
         # End FLSUN Changes
         self.is_printer_ready = False
         # Register g-code commands
@@ -169,8 +171,10 @@ class GCodeMove:
             else:
                 real_x_size_offset = self.x_size_offset
                 real_y_size_offset = self.y_size_offset
-            self.cali_position[0] = self.last_position[0] * (1 + real_x_size_offset) 
-            self.cali_position[1] = self.last_position[1] * (1 + real_y_size_offset) 
+            self.cali_position[0] = self.last_position[0] *
+                (1 + real_x_size_offset)
+            self.cali_position[1] = self.last_position[1] *
+                (1 + real_y_size_offset)
             # End FLSUN Changes
             if 'F' in params:
                 gcode_speed = float(params['F'])

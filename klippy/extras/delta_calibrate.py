@@ -85,12 +85,19 @@ class DeltaCalibrate:
         # Start FLSUN Changes
         enhanced_method = config.getboolean('enhanced_method', False)
         if enhanced_method:
-            points = [(0., 0.), (0., 20.), (0., 0.), (0., -20.), (20., 0.), (-20., 0.)]
+            points = [
+                (0., 0.),
+                (0., 20.),
+                (0., 0.),
+                (0., -20.),
+                (20., 0.),
+                (-20., 0.)
+            ]
             scatter = [.97] * 16
             for i in range(16):
                 degrees = 22.5 * i
                 angle = math.radians(degrees)
-                dist = radius * scatter[i]  
+                dist = radius * scatter[i]
                 x = dist * math.cos(angle)
                 y = dist * math.sin(angle)
                 points.append((x, y))

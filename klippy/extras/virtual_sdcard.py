@@ -45,7 +45,8 @@ class VirtualSD:
             "SDCARD_PRINT_FILE", self.cmd_SDCARD_PRINT_FILE,
             desc=self.cmd_SDCARD_PRINT_FILE_help)
         # Start FLSUN Changes
-        self.gcode.register_command("POWER_LOSS_RESTART_PRINT", self.cmd_POWER_LOSS_RESTART_PRINT,
+        self.gcode.register_command("POWER_LOSS_RESTART_PRINT",
+            self.cmd_POWER_LOSS_RESTART_PRINT,
             desc=self.cmd_POWER_LOSS_RESTART_PRINT_help)
         # End FLSUN Changes
         self.printer.register_event_handler("klippy:analyze_shutdown",
@@ -180,17 +181,21 @@ class VirtualSD:
             filename = filename[1:]
         self._load_file(gcmd, filename)
     # Start FLSUN Changes
-    cmd_POWER_LOSS_RESTART_PRINT_help = "Restart print after power loss and power on"
+    cmd_POWER_LOSS_RESTART_PRINT_help =
+        "Restart print after power loss and power on"
     def cmd_POWER_LOSS_RESTART_PRINT(self, gcmd):
         filename = gcmd.get("FILENAME")
         fileposition = gcmd.get("FILEPOSITION")
         fname = os.path.basename(filename)
         gcmd_print_duration = gcmd.get("PRINT_DURATION", 0)
         gcmd_filament_used = gcmd.get("FILAMENT_USED", 0.)
-        self._load_file(gcmd, fname, fileposition, check_subdirs=True, print_duration=gcmd_print_duration, filament_used=gcmd_filament_used)      
+        self._load_file(gcmd, fname, fileposition, check_subdirs=True,
+            print_duration=gcmd_print_duration,
+            filament_used=gcmd_filament_used)
         self.do_resume()
     #def _load_file(self, gcmd, filename, check_subdirs=False):
-    def _load_file(self, gcmd, filename, fileposition=0, check_subdirs=False, print_duration=0, filament_used=0.):
+    def _load_file(self, gcmd, filename, fileposition=0, check_subdirs=False,
+      print_duration=0, filament_used=0.):
     # End FLSUN Changes
         files = self.get_file_list(check_subdirs)
         flist = [f[0] for f in files]
