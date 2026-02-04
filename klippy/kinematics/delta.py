@@ -50,12 +50,6 @@ class DeltaKinematics:
         self.radius = radius = config.getfloat("delta_radius", above=0.0)
         print_radius = config.getfloat("print_radius", radius, above=0.0)
         arm_length_a = stepper_configs[0].getfloat("arm_length", above=radius)
-        # Start FLSUN Changes
-        gcode_move = self.printer.load_object(config, 'gcode_move')
-        x_size_offset, y_size_offset = gcode_move.get_xy_size_offset()
-        if x_size_offset > 0 or y_size_offset > 0:
-            print_radius = print_radius*(1 + max(x_size_offset, y_size_offset))
-        # End FLSUN Changes
         self.arm_lengths = arm_lengths = [
             sconfig.getfloat("arm_length", arm_length_a, above=radius)
             for sconfig in stepper_configs

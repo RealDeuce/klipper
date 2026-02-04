@@ -376,7 +376,6 @@ class ToolHead:
         self.printer.register_event_handler(
             "klippy:shutdown", self._handle_shutdown
         )
-        gcode.register_command('M101', self.cmd_M101) # FLSUN Changes
         # Load some default modules
         modules = [
             "gcode_move",
@@ -939,64 +938,7 @@ class ToolHead:
         )
         if get_danger_options().log_velocity_limit_changes:
             gcmd.respond_info("\n".join(msg), log=False)
-    # Start FLSUN Changes
-    def cmd_M101(self, gcmd):
-        x_real_size = gcmd.get_float('X', None, above=0.)
-        y_real_size = gcmd.get_float('Y', None, above=0.)
-        target_size = gcmd.get_float('T', None, above=0.)
-        reset_value = gcmd.get_float('S', None)
-        gcode = self.printer.lookup_object('gcode')
 
-        if reset_value == 0:
-            configfile = self.printer.lookup_object('configfile')
-            new_x_size_offset = 0
-            new_y_size_offset = 0
-            configfile.set('printer', 'x_size_offset',
-                "%.6f" % (new_x_size_offset))
-            configfile.set('printer', 'y_size_offset',
-                "%.6f" % (new_y_size_offset))
-            gcode.respond_info("Reset of XY Offsets done!")
-
-        if reset_value is not None and reset_value != 0:
-            gcode.respond_info(
-                "Invalid S value. Only S0 is accepted to reset XY Offsets."
-            )
-            return
-
-        if target_size is not None:
-            gcode_move = self.printer.lookup_object('gcode_move')
-            last_x_size_offset, last_y_size_offset = (
-                gcode_move.get_xy_size_offset()
-            )
-            configfile = self.printer.lookup_object('configfile')
-
-            if x_real_size is not None:
-                new_x_size_offset = (
-                    (target_size - x_real_size) / target_size + 1
-                ) * (1 + last_x_size_offset) - 1
-                new_x_size_offset = min(new_x_size_offset, 0.034)
-                new_x_size_offset = max(new_x_size_offset, -0.034)
-                configfile.set('printer', 'x_size_offset',
-                    "%.6f" % (new_x_size_offset))
-                gcode.respond_info(
-                    "X Offset Compensation applied: %.6f" % (new_x_size_offset)
-                )
-
-            if y_real_size is not None:
-                new_y_size_offset = (
-                    (target_size - y_real_size) / target_size + 1
-                ) * (1 + last_y_size_offset) - 1
-                new_y_size_offset = min(new_y_size_offset, 0.034)
-                new_y_size_offset = max(new_y_size_offset, -0.034)
-                configfile.set(
-                    'printer', 'y_size_offset', "%.6f" % (new_y_size_offset)
-                )
-                gcode.respond_info(
-                    "Y Offset Compensation applied: %.6f" % (new_y_size_offset)
-                )
-
-        gcode.run_script_from_command('SAVE_CONFIG')
-    # End FLSUN Changes
     def cmd_M204(self, gcmd):
         # Use S for accel
         accel = gcmd.get_float("S", None, above=0.0)
