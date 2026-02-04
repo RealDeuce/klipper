@@ -244,7 +244,6 @@ class Homing:
         self.changed_axes = []
         self.trigger_mcu_pos = {}
         self.adjust_pos = {}
-        self.set_home_speed_flag = False # FLSUN Changes
 
     def set_axes(self, axes):
         self.changed_axes = axes
@@ -306,11 +305,6 @@ class Homing:
         for endstop in endstops:
             endstop[0].query_endstop(print_time)
 
-    # Start FLSUN Changes
-    def set_home_speed(self, my_home_speed):
-        self.set_home_speed_flag = True
-        self.my_home_speed = my_home_speed
-    # End FLSUN Changes
     def home_rails(self, rails, forcepos, movepos):
         # Notify of upcoming homing operation
         self.printer.send_event("homing:home_rails_begin", self, rails)
@@ -328,13 +322,7 @@ class Homing:
             self._set_homing_accel(hi.accel, pre_homing=True)
             self._set_homing_current(homing_axes, pre_homing=True)
             self._reset_endstop_states(endstops)
-            # Start FLSUN Changes
-            #hmove.homing_move(homepos, hi.speed)
-            if self.set_home_speed_flag:
-                hmove.homing_move(homepos, self.my_home_speed)
-            else:
-                hmove.homing_move(homepos, hi.speed)
-            # End FLSUN Changes
+            hmove.homing_move(homepos, hi.speed)
         finally:
             self._set_homing_accel(hi.accel, pre_homing=False)
 
@@ -476,8 +464,6 @@ class PrinterHoming:
             axes = [0, 1, 2]
         homing_state = Homing(self.printer)
         homing_state.set_axes(axes)
-        my_home_speed = gcmd.get_float('F', 50, above=50) #flsun add, modify home speed
-        homing_state.set_home_speed(my_home_speed) #flsun add
         kin = self.printer.lookup_object("toolhead").get_kinematics()
         try:
             kin.home(homing_state)
