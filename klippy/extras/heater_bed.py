@@ -20,35 +20,9 @@ class PrinterHeaterBed:
     def cmd_M140(self, gcmd, wait=False):
         # Set Bed Temperature
         temp = gcmd.get_float("S", 0.0)
-        # Start FLSUN Changes
-        try:
-            pheaters.lookup_heater("heater_bed_2")
-            has_hb2 = True
-        except:
-            has_hb2 = False
-        hotbed = gcmd.get_float('B', -1)
-        # End FLSUN Changes
         pheaters = self.printer.lookup_object("heaters")
-        # Start FLSUN Changes
-        #pheaters.set_temperature(self.heater, temp, wait)
-        gcode = self.printer.lookup_object('gcode')
-        if hotbed == 0 or hotbed == -1:
-            pheaters.set_temperature(self.heater, temp, False)
-        if (has_hb2 and (hotbed == 1 or hotbed == -1)):
-            gcode.run_script_from_command(
-                "SET_HEATER_TEMPERATURE HEATER=heater_bed_2 TARGET=%f WAIT=0"
-                % temp
-            )
+        pheaters.set_temperature(self.heater, temp, wait)
 
-        if wait:
-            if hotbed == 0 or hotbed == -1:
-                pheaters.set_temperature(self.heater, temp, True)
-            if (has_hb2 and (hotbed == 1 or hotbed == -1)):
-                gcode.run_script_from_command(
-                    ("SET_HEATER_TEMPERATURE HEATER=heater_bed_2"
-                     " TARGET=%f WAIT=1") % temp
-                )
-        # End FLSUN Changes
     def cmd_M190(self, gcmd):
         # Set Bed Temperature and Wait
         self.cmd_M140(gcmd, wait=True)
